@@ -43,7 +43,7 @@ export function GovBrFooter() {
       <div className="container-lg">
         <div className="info">
           <div className="text-down-01 text-medium pb-3">
-            ©Instituto Nacional da Propriedade Industrial · 2026 · Gerência de Projetos da Presidência
+            ©  Instituto Nacional da Propriedade Industrial   ·   2026   ·   Gerência de Projetos da Presidência
           </div>
         </div>
       </div>

@@ -40,3 +40,18 @@ select {
 .br-header .header-actions .header-login.header-login-right {
   margin-left: auto;
 }
+
+.br-footer {
+  --footer-padding-bottom: 0;
+}
+
+.br-footer .logo {
+  display: flex;
+  justify-content: center;
+}
+
+.br-footer .logo img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
