@@ -18,6 +18,58 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif) !important;
+  position: relative;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes grid-drift {
+  0%,
+  100% {
+    background-position: 0 0, 0 0;
+  }
+  50% {
+    background-position: 24px 24px, -24px -24px;
+  }
+}
+
+@keyframes grid-glow {
+  0%,
+  100% {
+    opacity: 0.48;
+  }
+  50% {
+    opacity: 0.78;
+  }
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background-image:
+    linear-gradient(to right, rgba(251, 146, 60, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(253, 186, 116, 0.2) 1px, transparent 1px);
+  background-size: 44px 44px;
+  animation: grid-drift 18s ease-in-out infinite, grid-glow 9s ease-in-out infinite;
+}
+
+body::after {
+  background-image:
+    linear-gradient(to right, rgba(255, 237, 213, 0.32) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 247, 237, 0.28) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-position: 22px 22px;
+  animation: grid-drift 22s ease-in-out infinite reverse, grid-glow 11s ease-in-out infinite reverse;
 }
 
 html,
@@ -58,22 +110,6 @@ select {
 
 .mb-4 {
   --spacing-scale-3x: 48px;
-}
-
-@keyframes login-gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.login-dynamic-gradient {
-  background: linear-gradient(120deg, #fffdf8 0%, #fff7ed 35%, #fef3c7 60%, #fffaf0 100%);
-  background-size: 220% 220%;
-  animation: login-gradient-shift 10s ease-in-out infinite;
 }
 
 .login-portal-title {
