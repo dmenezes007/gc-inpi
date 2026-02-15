@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GovBrHeader } from "@/components/GovBrHeader";
+import { GovBrFooter } from "@/components/GovBrFooter";
 
 export const metadata: Metadata = {
   title: 'GC Client - Dashboard',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="antialiased">
         <GovBrHeader />
         {children}
+        <GovBrFooter />
       </body>
     </html>
   );
