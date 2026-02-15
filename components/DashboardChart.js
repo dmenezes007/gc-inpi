@@ -17,6 +17,11 @@ const mockData = [
 
 export function DashboardChart() {
   const [data, setData] = useState(mockData);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchResponses = async () => {
@@ -60,21 +65,25 @@ export function DashboardChart() {
         <span className="text-sm font-semibold text-slate-600">Média: {avg}</span>
       </CardHeader>
       <CardContent>
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <XAxis dataKey="data" stroke="#64748b" fontSize={12} />
-              <YAxis stroke="#64748b" fontSize={12} />
-              <Tooltip
-                contentStyle={{
-                  borderRadius: 12,
-                  borderColor: '#e2e8f0',
-                  boxShadow: '0 4px 12px rgba(15,23,42,0.08)',
-                }}
-              />
-              <Line type="monotone" dataKey="valor" stroke="#4f46e5" strokeWidth={3} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className="h-72 w-full min-w-0" style={{ minHeight: 288 }}>
+          {!isMounted ? (
+            <div className="h-full w-full rounded-xl border border-slate-200 bg-slate-50 animate-pulse" />
+          ) : (
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={240}>
+              <LineChart data={data}>
+                <XAxis dataKey="data" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} />
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: 12,
+                    borderColor: '#e2e8f0',
+                    boxShadow: '0 4px 12px rgba(15,23,42,0.08)',
+                  }}
+                />
+                <Line type="monotone" dataKey="valor" stroke="#4f46e5" strokeWidth={3} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </CardContent>
     </Card>

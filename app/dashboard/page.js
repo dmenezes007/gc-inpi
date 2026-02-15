@@ -8,7 +8,6 @@ import {
   Users,
 } from 'lucide-react';
 import { DashboardChart } from '@/components/DashboardChart';
-import { FormInput } from '@/components/FormInput';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -140,11 +139,7 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          <div className="md:col-span-6">
-            <FormInput formId="gc-inpi-feedback" />
-          </div>
-
-          <div className="md:col-span-6">
+          <div className="md:col-span-12">
             <Card className="h-full">
               <CardHeader>
                 <CardTitle>Resumo operacional</CardTitle>

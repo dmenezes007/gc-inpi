@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Send } from 'lucide-react';
 import { supabase, supabaseConfigured } from '@/lib/supabaseClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function FormInput({ formId }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -18,23 +20,26 @@ export function FormInput({ formId }) {
     setMessage('');
 
     try {
-      if (supabaseConfigured && supabase) {
-        const { error } = await supabase.from('responses').insert([
-          {
-            user_id: 'usuario-demo',
-            form_id: formId,
-            payload: { feedback, nivel_satisfacao: score },
-          },
-        ]);
+      if (!supabaseConfigured || !supabase) {
+        throw new Error('Supabase não configurado. Verifique as variáveis NEXT_PUBLIC_ no .env.local');
+      }
 
-        if (error) {
-          throw new Error(error.message);
-        }
+      const { error } = await supabase.from('responses').insert([
+        {
+          user_id: 'usuario-demo',
+          form_id: formId,
+          payload: { feedback, nivel_satisfacao: score },
+        },
+      ]);
+
+      if (error) {
+        throw new Error(error.message);
       }
 
       setFeedback('');
       setScore(5);
       setMessage('Resposta registrada com sucesso.');
+      router.push('/dashboard');
     } catch (error) {
       setMessage(`Falha ao registrar resposta: ${error.message}`);
     } finally {
