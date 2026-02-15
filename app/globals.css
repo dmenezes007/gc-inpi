@@ -55,3 +55,12 @@ select {
   margin-left: auto;
   margin-right: auto;
 }
+
+.mb-4 {
+  --spacing-scale-3x: 48px;
+}
+
+.login-portal-title {
+  font-weight: var(--font-weight-extrabold) !important;
+  color: var(--background-dark) !important;
+}

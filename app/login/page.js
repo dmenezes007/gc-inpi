@@ -70,7 +70,7 @@ export default function LoginPage() {
     <main className="flex-1 bg-[#F3F4F6] py-6 px-4">
       <div className="container-lg mx-auto flex justify-center">
         <div className="w-full max-w-md">
-          <h1 className="mb-4 text-center text-2xl font-extrabold text-slate-900">Portal da Gestão do Conhecimento</h1>
+          <h1 className="login-portal-title mb-4 text-center text-2xl text-slate-900">Portal da Gestão do Conhecimento</h1>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="m-0 text-lg text-center font-bold text-slate-900">Acesso ao Sistema</h2>
