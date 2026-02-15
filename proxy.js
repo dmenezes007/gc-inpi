@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { isValidSupabaseUrl, normalizeSupabaseUrl } from '@/lib/supabaseEnv';
 
-export async function middleware(req) { // Alterado para middleware
+export async function proxy(req) {
   let res = NextResponse.next({ request: req });
   const path = req.nextUrl.pathname;
   const isProtected = path.startsWith('/formulario') || path.startsWith('/dashboard');
@@ -23,17 +23,18 @@ export async function middleware(req) { // Alterado para middleware
     supabaseAnonKey,
     {
       cookies: {
-        getAll() { return req.cookies.getAll() },
+        getAll() {
+          return req.cookies.getAll();
+        },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
           res = NextResponse.next({ request: req });
           cookiesToSet.forEach(({ name, value, options }) => res.cookies.set(name, value, options));
         },
       },
-    }
+    },
   );
 
-  // Use getSession para evitar o erro 400 de validação excessiva
   let session = null;
 
   try {
@@ -43,12 +44,10 @@ export async function middleware(req) { // Alterado para middleware
     session = null;
   }
 
-  // 1. Se não houver sessão e a rota for protegida -> Login
   if (!session && isProtected) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // 2. Se houver sessão e tentar ir para o login -> Formulário
   if (session && path === '/login') {
     return NextResponse.redirect(new URL('/formulario', req.url));
   }
@@ -58,4 +57,4 @@ export async function middleware(req) { // Alterado para middleware
 
 export const config = {
   matcher: ['/login', '/formulario/:path*', '/dashboard/:path*'],
-};  
+};
