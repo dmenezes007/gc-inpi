@@ -66,7 +66,8 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F3F4F6] flex items-center justify-center px-4">
+    <main className="min-h-screen bg-[#F3F4F6] py-6 px-4">
+      <div className="container-lg mx-auto flex justify-center">
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-bold text-slate-900">Acesso ao Sistema</h1>
 
@@ -76,8 +77,8 @@ export default function LoginPage() {
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
+            <div className="br-input">
+              <label htmlFor="email">
                 E-mail
               </label>
               <input
@@ -85,15 +86,14 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="br-input w-full"
                 placeholder="seuemail@dominio.com"
                 autoComplete="email"
                 required
               />
             </div>
 
-            <div>
-              <label htmlFor="password" className="mb-2 block text-sm font-medium text-slate-700">
+            <div className="br-input">
+              <label htmlFor="password">
                 Senha
               </label>
               <input
@@ -101,7 +101,6 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="br-input w-full"
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required
@@ -115,6 +114,7 @@ export default function LoginPage() {
             {errorMessage && <p className="text-sm text-rose-600">{errorMessage}</p>}
           </form>
         )}
+      </div>
       </div>
     </main>
   );

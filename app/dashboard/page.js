@@ -56,12 +56,12 @@ const badgeByStatus = {
 
 function Sidebar() {
   return (
-    <aside className="fixed left-0 top-0 h-screen w-20 md:w-64 border-r border-slate-200 bg-white">
+    <aside className="w-full md:w-64 border border-slate-200 bg-white rounded-2xl md:sticky md:top-24 md:self-start">
       <div className="flex h-16 items-center gap-3 border-b border-slate-200 px-4 md:px-6">
         <LayoutDashboard className="h-6 w-6 text-indigo-600" />
         <span className="hidden md:inline text-sm font-semibold text-slate-900">GC Client</span>
       </div>
-      <nav className="p-2 md:p-4 space-y-2">
+      <nav className="p-2 md:p-4 space-y-2 flex md:block gap-2">
         <button className="w-full flex items-center justify-center md:justify-start gap-3 rounded-xl bg-indigo-600 px-3 py-2 text-white">
           <LayoutDashboard className="h-5 w-5" />
           <span className="hidden md:inline text-sm font-medium">Dashboard</span>
@@ -103,55 +103,58 @@ function StatCard({ item }) {
 
 export default function DashboardPage() {
   return (
-    <main className="min-h-screen bg-[#F3F4F6]">
-      <Sidebar />
+    <main className="min-h-screen bg-[#F3F4F6] py-6 px-4">
+      <div className="container-lg mx-auto flex flex-col md:flex-row gap-4 md:gap-6">
+        <Sidebar />
 
-      <div className="ml-20 md:ml-64 p-4 md:p-6">
-        <header className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">Painel de Governança</h1>
-          <p className="text-slate-600 mt-1">Visão consolidada de KPIs, status e evolução de respostas.</p>
-        </header>
+        <div className="flex-1 max-w-6xl">
+          <header className="mb-6 text-center md:text-left">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">Painel de Governança</h1>
+            <p className="text-slate-600 mt-1">Visão consolidada de KPIs, status e evolução de respostas.</p>
+          </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-          {stats.map((item) => (
-            <div key={item.label} className="md:col-span-3">
-              <StatCard item={item} />
+          <section className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+            {stats.map((item) => (
+              <div key={item.label} className="md:col-span-3">
+                <StatCard item={item} />
+              </div>
+            ))}
+
+            <div className="md:col-span-8">
+              <DashboardChartClient />
             </div>
-          ))}
 
-          <div className="md:col-span-8">
-            <DashboardChartClient />
-          </div>
+            <div className="md:col-span-4">
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>Status dos formulários</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {statusItems.map((item) => (
+                    <div key={item.name} className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+                      <span className="text-sm font-medium text-slate-700">{item.name}</span>
+                      <Badge className={badgeByStatus[item.status]}>{item.status}</Badge>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
 
-          <div className="md:col-span-4">
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle>Status dos formulários</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {statusItems.map((item) => (
-                  <div key={item.name} className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-                    <span className="text-sm font-medium text-slate-700">{item.name}</span>
-                    <Badge className={badgeByStatus[item.status]}>{item.status}</Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+            <div className="md:col-span-12">
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>Resumo operacional</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-slate-700">
+                  <p>• Tendência de crescimento sustentável na coleta de respostas.</p>
+                  <p>• Queda da taxa de abandono no período atual.</p>
+                  <p>• Itens críticos identificados para ação priorizada.</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-
-          <div className="md:col-span-12">
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle>Resumo operacional</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-slate-700">
-                <p>• Tendência de crescimento sustentável na coleta de respostas.</p>
-                <p>• Queda da taxa de abandono no período atual.</p>
-                <p>• Itens críticos identificados para ação priorizada.</p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     </main>
   );
