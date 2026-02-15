@@ -1,3 +1,4 @@
+@import url("https://fonts.cdnfonts.com/css/rawline");
 @import "@govbr-ds/core/dist/core.min.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 @import "tailwindcss";
@@ -16,19 +17,19 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif);
+  font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif) !important;
 }
 
 html,
 body {
-  font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif);
+  font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif) !important;
 }
 
 button,
 input,
 textarea,
 select {
-  font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif);
+  font-family: var(--font-family-base, Rawline, Raleway, Arial, Helvetica, sans-serif) !important;
 }
 
 .br-header {
