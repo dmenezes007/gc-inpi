@@ -42,7 +42,7 @@ select {
 }
 
 .br-footer {
-  --footer-padding-bottom: 0;
+  --footer-padding-bottom: 0 0 16px;
 }
 
 .br-footer .logo {
