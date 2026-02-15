@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { hasValidSupabaseEnv } from '@/lib/supabaseClient';
 import { getSupabaseBrowserClient } from '@/lib/supabaseBrowserClient';
-import { Button } from '@/components/ui/button';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -86,7 +85,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="br-input w-full"
                 placeholder="seuemail@dominio.com"
                 autoComplete="email"
                 required
@@ -102,16 +101,16 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="br-input w-full"
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required
               />
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full">
+            <button type="submit" disabled={loading} className="br-button primary w-full">
               {loading ? 'Entrando...' : 'Entrar'}
-            </Button>
+            </button>
 
             {errorMessage && <p className="text-sm text-rose-600">{errorMessage}</p>}
           </form>
