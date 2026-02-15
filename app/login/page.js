@@ -4,13 +4,13 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeMinimal } from '@supabase/auth-ui-shared';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { hasValidSupabaseEnv } from '@/lib/supabaseClient';
+import { getSupabaseBrowserClient } from '@/lib/supabaseBrowserClient';
 
 export default function LoginPage() {
   const router = useRouter();
-  const supabaseConfigured = hasValidSupabaseEnv();
-  const supabase = supabaseConfigured ? createClientComponentClient() : null;
+  const supabase = getSupabaseBrowserClient();
+  const supabaseConfigured = hasValidSupabaseEnv() && Boolean(supabase);
 
   useEffect(() => {
     if (!supabaseConfigured || !supabase) {

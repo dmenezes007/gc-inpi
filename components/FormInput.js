@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Send } from 'lucide-react';
 import { hasValidSupabaseEnv } from '@/lib/supabaseClient';
+import { getSupabaseBrowserClient } from '@/lib/supabaseBrowserClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function FormInput({ formId }) {
   const router = useRouter();
-  const supabaseConfigured = hasValidSupabaseEnv();
-  const supabase = supabaseConfigured ? createClientComponentClient() : null;
+  const supabase = getSupabaseBrowserClient();
+  const supabaseConfigured = hasValidSupabaseEnv() && Boolean(supabase);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [feedback, setFeedback] = useState('');
