@@ -10,59 +10,43 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-function createPseudoUuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
-    const random = Math.floor(Math.random() * 16);
-    const value = char === 'x' ? random : (random & 0x3) | 0x8;
-    return value.toString(16);
-  });
-}
-
-function getFallbackFormUuid(formId) {
-  const formKey = typeof formId === 'string' && formId.trim() ? formId.trim() : 'default-form';
-  const storageKey = `gc-form-uuid:${formKey}`;
-
-  try {
-    const storedUuid = window.localStorage.getItem(storageKey);
-
-    if (storedUuid && UUID_REGEX.test(storedUuid)) {
-      return storedUuid;
-    }
-
-    const generatedUuid = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-      ? crypto.randomUUID()
-      : createPseudoUuid();
-
-    window.localStorage.setItem(storageKey, generatedUuid);
-    return generatedUuid;
-  } catch {
-    return typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-      ? crypto.randomUUID()
-      : createPseudoUuid();
-  }
-}
-
 async function resolveFormUuid(supabase, formId) {
   if (typeof formId !== 'string' || !formId.trim()) {
     return null;
   }
 
-  if (UUID_REGEX.test(formId)) {
-    return formId;
+  const normalizedFormId = formId.trim();
+  const storageKey = `gc-form-uuid:${normalizedFormId}`;
+
+  if (UUID_REGEX.test(normalizedFormId)) {
+    try {
+      window.localStorage.setItem(storageKey, normalizedFormId);
+    } catch {
+    }
+    return normalizedFormId;
   }
 
-  const normalizedFormId = formId.trim();
-  const candidateColumns = ['slug', 'key', 'code', 'name'];
+  try {
+    const cachedFormUuid = window.localStorage.getItem(storageKey);
+    if (cachedFormUuid && UUID_REGEX.test(cachedFormUuid)) {
+      return cachedFormUuid;
+    }
+  } catch {
+  }
 
-  for (const column of candidateColumns) {
-    const { data, error } = await supabase
-      .from('forms')
-      .select('id')
-      .eq(column, normalizedFormId)
-      .maybeSingle();
+  const { data: firstForm, error: firstFormError } = await supabase
+    .from('forms')
+    .select('id')
+    .limit(1);
 
-    if (!error && data?.id && UUID_REGEX.test(data.id)) {
-      return data.id;
+  if (!firstFormError && Array.isArray(firstForm) && firstForm.length > 0) {
+    const resolvedId = firstForm[0]?.id;
+    if (resolvedId && UUID_REGEX.test(resolvedId)) {
+      try {
+        window.localStorage.setItem(storageKey, resolvedId);
+      } catch {
+      }
+      return resolvedId;
     }
   }
 
@@ -78,7 +62,7 @@ async function resolveFormUuid(supabase, formId) {
     return latestResponse.form_id;
   }
 
-  return getFallbackFormUuid(normalizedFormId);
+  return null;
 }
 
 export function FormInput({ formId }) {
@@ -109,6 +93,10 @@ export function FormInput({ formId }) {
       }
 
       const resolvedFormId = await resolveFormUuid(supabase, formId);
+
+      if (!resolvedFormId) {
+        throw new Error('Não foi possível localizar um formulário válido para envio. Verifique se existe ao menos um registro na tabela forms.');
+      }
 
       const responsePayload = {
         form_id: resolvedFormId,
