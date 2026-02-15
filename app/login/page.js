@@ -73,7 +73,7 @@ export default function LoginPage() {
           <h1 className="mb-4 text-center text-2xl font-bold text-slate-900">Portal da Gestão do Conhecimento</h1>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-lg text-center font-bold text-slate-900">Acesso ao Sistema</h2>
+            <h2 className="m-0 text-lg text-center font-bold text-slate-900">Acesso ao Sistema</h2>
 
             {!supabaseConfigured || !supabase ? (
               <p className="text-sm text-rose-600">
