@@ -93,6 +93,12 @@ select {
   margin-left: auto;
 }
 
+.header-knowledge-title {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-extrabold) !important;
+  color: var(--background-dark) !important;
+}
+
 .br-footer {
   --footer-padding-bottom: 0 0 16px;
 }

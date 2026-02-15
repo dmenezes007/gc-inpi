@@ -78,7 +78,7 @@ export function GovBrHeader() {
             </div>
           </div>
           <div className="header-search justify-end">
-            <span className="text-base font-medium text-slate-700">Gerência de Projetos da Presidência</span>
+            <span className="header-knowledge-title">Portal da Gestão do Conhecimento</span>
           </div>
         </div>
       </div>
