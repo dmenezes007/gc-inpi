@@ -10,6 +10,45 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+async function resolveFormUuid(supabase, formId) {
+  if (typeof formId !== 'string' || !formId.trim()) {
+    return null;
+  }
+
+  if (UUID_REGEX.test(formId)) {
+    return formId;
+  }
+
+  const normalizedFormId = formId.trim();
+  const candidateColumns = ['slug', 'key', 'code', 'name'];
+
+  for (const column of candidateColumns) {
+    const { data, error } = await supabase
+      .from('forms')
+      .select('id')
+      .eq(column, normalizedFormId)
+      .maybeSingle();
+
+    if (!error && data?.id && UUID_REGEX.test(data.id)) {
+      return data.id;
+    }
+  }
+
+  const { data: latestResponse, error: latestError } = await supabase
+    .from('responses')
+    .select('form_id')
+    .not('form_id', 'is', null)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (!latestError && latestResponse?.form_id && UUID_REGEX.test(latestResponse.form_id)) {
+    return latestResponse.form_id;
+  }
+
+  return null;
+}
+
 export function FormInput({ formId }) {
   const router = useRouter();
   const supabase = getSupabaseBrowserClient();
@@ -37,7 +76,14 @@ export function FormInput({ formId }) {
         throw new Error('Sessão inválida. Faça login novamente.');
       }
 
+      const resolvedFormId = await resolveFormUuid(supabase, formId);
+
+      if (!resolvedFormId) {
+        throw new Error('Não foi possível localizar o ID do formulário. Cadastre um formulário na tabela forms e vincule um ID UUID válido.');
+      }
+
       const responsePayload = {
+        form_id: resolvedFormId,
         user_id: user.id,
         payload: {
           feedback,
@@ -45,10 +91,6 @@ export function FormInput({ formId }) {
           form_key: formId,
         },
       };
-
-      if (typeof formId === 'string' && UUID_REGEX.test(formId)) {
-        responsePayload.form_id = formId;
-      }
 
       const { error } = await supabase.from('responses').insert([
         responsePayload,
