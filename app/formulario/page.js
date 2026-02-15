@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function FormularioPage() {
   return (
-    <main className="min-h-screen bg-[#F3F4F6] py-6 px-4">
+    <main className="min-h-screen py-6 px-4">
       <div className="container-lg mx-auto max-w-4xl space-y-6">
         <Card>
           <CardHeader>

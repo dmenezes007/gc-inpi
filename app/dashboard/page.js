@@ -103,7 +103,7 @@ function StatCard({ item }) {
 
 export default function DashboardPage() {
   return (
-    <main className="min-h-screen bg-[#F3F4F6] py-6 px-4">
+    <main className="min-h-screen py-6 px-4">
       <div className="container-lg mx-auto flex flex-col md:flex-row gap-4 md:gap-6">
         <Sidebar />
 
