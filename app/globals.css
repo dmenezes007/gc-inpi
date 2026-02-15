@@ -22,3 +22,7 @@ body {
   --background: #ffffff;
   background: #ffffff;
 }
+
+.br-header .header-actions .header-login.header-login-right {
+  margin-left: auto;
+}

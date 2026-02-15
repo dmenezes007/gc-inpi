@@ -47,55 +47,20 @@ export function GovBrHeader() {
             <div className="header-sign">Ministério do Desenvolvimento, Indústria, Comércio e Serviços</div>
           </div>
           <div className="header-actions">
-            <div className="header-links dropdown">
-              <button className="br-button circle small" type="button" data-toggle="dropdown" aria-label="Abrir Acesso Rápido">
-                <i className="fas fa-ellipsis-v" aria-hidden="true"></i>
-              </button>
+            <div className="header-links">
               <div className="br-list">
-                <div className="header">
-                  <div className="title">Acesso Rápido</div>
-                </div>
-                <a className="br-item" href="#">Órgãos do Governo</a>
-                <a className="br-item" href="#">Acesso à Informação</a>
-                <a className="br-item" href="#">Legislação</a>
-                <a className="br-item" href="#">Acessibilidade</a>
+                <a className="br-item" href="https://www.gov.br/pt-br/orgaos-do-governo">Órgãos do Governo</a>
+                <a className="br-item" href="https://www.gov.br/acessoainformacao/pt-br">Acesso à Informação</a>
+                <a className="br-item" href="http://www4.planalto.gov.br/legislacao">Legislação</a>
+                <a className="br-item" href="https://www.gov.br/governodigital/pt-br/acessibilidade-digital">Acessibilidade</a>
               </div>
             </div>
-            <span className="br-divider vertical mx-half mx-sm-1"></span>
-            <div className="header-functions dropdown">
-              <button className="br-button circle small" type="button" data-toggle="dropdown" aria-label="Abrir Funcionalidades do Sistema">
-                <i className="fas fa-th" aria-hidden="true"></i>
-              </button>
-              <div className="br-list">
-                <div className="header">
-                  <div className="title">Funcionalidades</div>
-                </div>
-                <div className="br-item">
-                  <button className="br-button circle small" type="button" aria-label="Tema">
-                    <i className="fas fa-cookie-bite" aria-hidden="true"></i>
-                    <span className="text">Cookies</span>
-                  </button>
-                </div>
-                <div className="br-item">
-                  <button className="br-button circle small" type="button" aria-label="Contraste">
-                    <i className="fas fa-circle-half-stroke" aria-hidden="true"></i>
-                    <span className="text">Contraste</span>
-                  </button>
-                </div>
-                <div className="br-item">
-                  <button className="br-button circle small" type="button" aria-label="Aplicativos">
-                    <i className="fas fa-th" aria-hidden="true"></i>
-                    <span className="text">Aplicativos</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="header-login">
+            <div className="header-login header-login-right">
               <div className="header-sign-in">
-                <button className="br-sign-in small" type="button">
+                <a className="br-sign-in small" href="https://www.gov.br/governodigital/pt-br/acessibilidade-digital">
                   <i className="fas fa-user" aria-hidden="true"></i>
                   <span className="d-sm-inline">Entrar com gov.br</span>
-                </button>
+                </a>
               </div>
               <div className="header-avatar"></div>
             </div>
