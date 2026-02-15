@@ -33,7 +33,7 @@ export function GovBrFooter() {
   }, []);
 
   return (
-    <footer className="br-footer inverted pt-3">
+    <footer className="br-footer pt-3">
       <div className="container-lg">
         <div className="logo">
           <img src="/logo_inpi_branco_fundo_transparente.png" alt="Logo INPI" style={{ maxHeight: '48px' }} />
