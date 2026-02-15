@@ -10,6 +10,38 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+function createPseudoUuid() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
+    const random = Math.floor(Math.random() * 16);
+    const value = char === 'x' ? random : (random & 0x3) | 0x8;
+    return value.toString(16);
+  });
+}
+
+function getFallbackFormUuid(formId) {
+  const formKey = typeof formId === 'string' && formId.trim() ? formId.trim() : 'default-form';
+  const storageKey = `gc-form-uuid:${formKey}`;
+
+  try {
+    const storedUuid = window.localStorage.getItem(storageKey);
+
+    if (storedUuid && UUID_REGEX.test(storedUuid)) {
+      return storedUuid;
+    }
+
+    const generatedUuid = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : createPseudoUuid();
+
+    window.localStorage.setItem(storageKey, generatedUuid);
+    return generatedUuid;
+  } catch {
+    return typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : createPseudoUuid();
+  }
+}
+
 async function resolveFormUuid(supabase, formId) {
   if (typeof formId !== 'string' || !formId.trim()) {
     return null;
@@ -46,7 +78,7 @@ async function resolveFormUuid(supabase, formId) {
     return latestResponse.form_id;
   }
 
-  return null;
+  return getFallbackFormUuid(normalizedFormId);
 }
 
 export function FormInput({ formId }) {
@@ -78,10 +110,6 @@ export function FormInput({ formId }) {
 
       const resolvedFormId = await resolveFormUuid(supabase, formId);
 
-      if (!resolvedFormId) {
-        throw new Error('Não foi possível localizar o ID do formulário. Cadastre um formulário na tabela forms e vincule um ID UUID válido.');
-      }
-
       const responsePayload = {
         form_id: resolvedFormId,
         user_id: user.id,
@@ -97,6 +125,9 @@ export function FormInput({ formId }) {
       ]);
 
       if (error) {
+        if (error.message?.toLowerCase().includes('foreign key constraint')) {
+          throw new Error('Formulário inválido para a relação responses.form_id. Verifique se existe um registro correspondente na tabela forms.');
+        }
         throw new Error(error.message);
       }
 
