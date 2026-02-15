@@ -7,7 +7,7 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
-import { DashboardChart } from '@/components/DashboardChart';
+import { DashboardChartClient } from '@/components/DashboardChartClient';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -120,7 +120,7 @@ export default function DashboardPage() {
           ))}
 
           <div className="md:col-span-8">
-            <DashboardChart />
+            <DashboardChartClient />
           </div>
 
           <div className="md:col-span-4">

@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Send } from 'lucide-react';
-import { supabase, supabaseConfigured } from '@/lib/supabaseClient';
+import { hasValidSupabaseEnv } from '@/lib/supabaseClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function FormInput({ formId }) {
   const router = useRouter();
+  const supabaseConfigured = hasValidSupabaseEnv();
+  const supabase = supabaseConfigured ? createClientComponentClient() : null;
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -24,9 +27,17 @@ export function FormInput({ formId }) {
         throw new Error('Supabase não configurado. Verifique as variáveis NEXT_PUBLIC_ no .env.local');
       }
 
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error('Sessão inválida. Faça login novamente.');
+      }
+
       const { error } = await supabase.from('responses').insert([
         {
-          user_id: 'usuario-demo',
+          user_id: user.id,
           form_id: formId,
           payload: { feedback, nivel_satisfacao: score },
         },

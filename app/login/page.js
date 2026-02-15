@@ -4,10 +4,13 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeMinimal } from '@supabase/auth-ui-shared';
-import { supabase, supabaseConfigured } from '@/lib/supabaseClient';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { hasValidSupabaseEnv } from '@/lib/supabaseClient';
 
 export default function LoginPage() {
   const router = useRouter();
+  const supabaseConfigured = hasValidSupabaseEnv();
+  const supabase = supabaseConfigured ? createClientComponentClient() : null;
 
   useEffect(() => {
     if (!supabaseConfigured || !supabase) {
@@ -31,7 +34,7 @@ export default function LoginPage() {
     return () => {
       subscription.unsubscribe();
     };
-  }, [router]);
+  }, [router, supabase, supabaseConfigured]);
 
   return (
     <main className="min-h-screen bg-[#F3F4F6] flex items-center justify-center px-4">
