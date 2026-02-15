@@ -18,6 +18,11 @@ body {
   font-family: var(--font-family-base, Rawline, Arial, Helvetica, sans-serif);
 }
 
+html,
+body {
+  font-family: var(--font-family-base, Rawline, Arial, Helvetica, sans-serif);
+}
+
 .br-header {
   --background: #ffffff;
   background: #ffffff;
