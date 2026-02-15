@@ -77,14 +77,8 @@ export function GovBrHeader() {
               <div className="header-title">Instituto Nacional da Propriedade Industrial</div>
             </div>
           </div>
-          <div className="header-search">
-            <div className="br-input has-icon">
-              <label htmlFor="searchbox-header">Texto da pesquisa</label>
-              <input id="searchbox-header" type="text" placeholder="O que você procura?" />
-              <button className="br-button circle small" type="button" aria-label="Pesquisar">
-                <i className="fas fa-search" aria-hidden="true"></i>
-              </button>
-            </div>
+          <div className="header-search justify-end">
+            <span className="text-base font-medium text-slate-700">Gerência de Projetos da Presidência</span>
           </div>
         </div>
       </div>
