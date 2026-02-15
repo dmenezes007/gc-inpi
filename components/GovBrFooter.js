@@ -35,7 +35,7 @@ export function GovBrFooter() {
   return (
     <footer className="br-footer pt-3">
       <div className="container-lg">
-        <div className="logo">
+        <div className="logo text-center">
           <img src="/logo_inpi_branco_fundo_transparente.png" alt="Logo INPI" style={{ maxHeight: '48px' }} />
         </div>
       </div>
@@ -43,7 +43,7 @@ export function GovBrFooter() {
       <div className="container-lg">
         <div className="info">
           <div className="text-down-01 text-medium pb-3">
-            Instituto Nacional da Propriedade Industrial · Portal da Gestão do Conhecimento.
+            ©Instituto Nacional da Propriedade Industrial · 2026 · Gerência de Projetos da Presidência
           </div>
         </div>
       </div>
