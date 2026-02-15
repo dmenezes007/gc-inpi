@@ -8,6 +8,8 @@ import { getSupabaseBrowserClient } from '@/lib/supabaseBrowserClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export function FormInput({ formId }) {
   const router = useRouter();
   const supabase = getSupabaseBrowserClient();
@@ -35,12 +37,21 @@ export function FormInput({ formId }) {
         throw new Error('Sessão inválida. Faça login novamente.');
       }
 
-      const { error } = await supabase.from('responses').insert([
-        {
-          user_id: user.id,
-          form_id: formId,
-          payload: { feedback, nivel_satisfacao: score },
+      const responsePayload = {
+        user_id: user.id,
+        payload: {
+          feedback,
+          nivel_satisfacao: score,
+          form_key: formId,
         },
+      };
+
+      if (typeof formId === 'string' && UUID_REGEX.test(formId)) {
+        responsePayload.form_id = formId;
+      }
+
+      const { error } = await supabase.from('responses').insert([
+        responsePayload,
       ]);
 
       if (error) {
