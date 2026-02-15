@@ -60,6 +60,22 @@ select {
   --spacing-scale-3x: 48px;
 }
 
+@keyframes login-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.login-dynamic-gradient {
+  background: linear-gradient(120deg, #fffdf8 0%, #fff7ed 35%, #fef3c7 60%, #fffaf0 100%);
+  background-size: 220% 220%;
+  animation: login-gradient-shift 10s ease-in-out infinite;
+}
+
 .login-portal-title {
   font-weight: var(--font-weight-extrabold) !important;
   color: var(--background-dark) !important;

@@ -67,7 +67,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex-1 bg-[#F3F4F6] py-6 px-4">
+    <main className="login-dynamic-gradient flex-1 py-6 px-4">
       <div className="container-lg mx-auto flex justify-center">
         <div className="w-full max-w-md">
           <h1 className="login-portal-title mb-4 text-center text-2xl text-slate-900">Portal da Gestão do Conhecimento</h1>
